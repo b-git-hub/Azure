@@ -1,0 +1,6 @@
+*.tfstate
+*.tfstate.backup
+.terraform
+.terraform.*
+*.pub
+linux_vm
