@@ -4,3 +4,4 @@
 .terraform.*
 *.pub
 linux_vm
+.gitignore
