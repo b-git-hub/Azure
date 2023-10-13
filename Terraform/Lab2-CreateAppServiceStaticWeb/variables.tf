@@ -1,4 +1,4 @@
 variable "azure_location" {
- type = string
- default = "westeurope"
+  type    = string
+  default = "westeurope"
 }

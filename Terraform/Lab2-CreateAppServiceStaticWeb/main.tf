@@ -11,7 +11,7 @@ resource "random_integer" "ri" {
 
 # Create Static Site
 resource "azurerm_static_site" "web" {
-  name = "webapp-static-${random_integer.ri.result}"
+  name                = "webapp-static-${random_integer.ri.result}"
   resource_group_name = azurerm_resource_group.main_rg.name
-  location = var.azure_location
+  location            = var.azure_location
 }

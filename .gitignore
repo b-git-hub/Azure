@@ -4,3 +4,5 @@
 .terraform.*
 *.pub
 linux_vm
+*.tfvars
+*.*.tfvars
