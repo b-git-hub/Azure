@@ -39,6 +39,7 @@ resource "azurerm_linux_virtual_machine" "linuxvm" {
     azurerm_network_interface.linux_vm_int_net_interface.id,
   ]
 
+# ssh-keygen
   admin_ssh_key {
     username   = "adminuser"
     public_key = file("linux_vm.pub")
