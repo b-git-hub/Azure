@@ -11,12 +11,12 @@ resource "random_integer" "ri" {
 
 # Storage Account 
 resource "azurerm_storage_account" "storageAccount" {
-  name                     = "demostorage${random_integer.ri.result}"
-  resource_group_name      = azurerm_resource_group.mainRg.name
-  location                 = var.azure_location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  access_tier              = "Hot"
+  name                          = "demostorage${random_integer.ri.result}"
+  resource_group_name           = azurerm_resource_group.mainRg.name
+  location                      = var.azure_location
+  account_tier                  = "Standard"
+  account_replication_type      = "LRS"
+  access_tier = "Hot"
 
   tags = {
     environment = "staging"
