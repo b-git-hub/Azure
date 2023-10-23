@@ -13,3 +13,13 @@ module "azureaddressspace" {
     azurelocation = azurerm_resource_group.azureregion.location
     azuresubnetrange = each.value.subnet
 }
+
+module "virtualmachines" {
+    source = "../modules/virtualmachine"
+    for_each = module.azureaddressspace
+
+    azureresourcegroup = azurerm_resource_group.azureregion.name
+    azurelocation = azurerm_resource_group.azureregion.location
+    azurevmname = each.value.addressspacename
+    azureinternalsubnetid = each.value.id
+}
