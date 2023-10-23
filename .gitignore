@@ -7,3 +7,4 @@ linux_vm
 *.tfvars
 *.*.tfvars
 linux
+Personal
