@@ -2,18 +2,23 @@ variable "azureresourcegroup" {
   type    = string
 }
 
-variable "azurefwaddressspacename" {
+variable "azuresourceaddressspace" {
   type    = string
 }
 
-variable "azurevmaddressspacename" {
+variable "azuredestinationaddressspace" {
   type    = string
 }
 
-variable "azurevmaddressspaceid" {
+variable "azuredestinationaddressspaceid" {
   type    = string
 }
 
-variable "azurefwaddressspaceid" {
+variable "azuresourceaddressspaceid" {
   type    = string
+}
+
+variable "allowforwardedtraffic" {
+  type    = bool
+  default = false
 }

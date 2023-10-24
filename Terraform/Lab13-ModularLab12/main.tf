@@ -30,24 +30,35 @@ module "azurefwnetworkdeploy" {
 # Deploy VMs to Spoke Networks
 module "azurevmnetworksdeploy" {
     source = "../modules/azurevirtualmachine"
-    depends_on = [module.azurefwnetworkdeploy.network1]
     for_each = module.azurevmnetworkdeploy
 
-    azureresourcegroup = azurerm_resource_group.azureregion.name
+    azureresourcegroup = module.azurevmnetworkdeploy.network1.resourcegroup
     azurelocation = azurerm_resource_group.azureregion.location
     azurevmname = each.value.name
     azureinternalsubnetid = each.value.subnetid
 }
 
-# Create Peering from vm vNets and connect them to Azure Fw vNet
-module "azurepeering" {
+# Create Peering from Firewall to network vNets
+module "azurefwpeering" {
     source = "../modules/azureprivatepeering"
     for_each = module.azurevmnetworkdeploy
 
-    azureresourcegroup = azurerm_resource_group.azureregion.name
-    azurevmaddressspacename = each.value.addressspacename
-    azurefwaddressspacename = module.azurefwnetworkdeploy.azurefirewall.addressspacename
-    azurevmaddressspaceid = each.value.addressspaceid
-    azurefwaddressspaceid = module.azurefwnetworkdeploy.azurefirewall.addressspaceid
+    azureresourcegroup = each.value.resourcegroup
+    azuresourceaddressspace = module.azurefwnetworkdeploy.azurefirewall.addressspacename
+    azuresourceaddressspaceid = module.azurefwnetworkdeploy.azurefirewall.addressspaceid
+    azuredestinationaddressspace = each.value.addressspacename
+    azuredestinationaddressspaceid = each.value.addressspaceid
+    allowforwardedtraffic = true
+}
 
+# Create Peering from vNets to Firewalls
+module "azurevmpeering" {
+    source = "../modules/azureprivatepeering"
+    for_each = module.azurevmnetworkdeploy
+
+    azureresourcegroup = each.value.resourcegroup
+    azuresourceaddressspace = each.value.addressspacename
+    azuresourceaddressspaceid = each.value.addressspaceid
+    azuredestinationaddressspace = module.azurefwnetworkdeploy.azurefirewall.addressspacename
+    azuredestinationaddressspaceid = module.azurefwnetworkdeploy.azurefirewall.addressspaceid
 }

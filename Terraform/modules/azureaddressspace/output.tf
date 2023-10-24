@@ -14,3 +14,11 @@ output "subnetid" {
   value = azurerm_subnet.subnet.id
 }
 
+output "resourcegroup" {
+  value = azurerm_virtual_network.addressspace.resource_group_name
+}
+
+output "location" {
+  value = azurerm_virtual_network.addressspace.location
+}
+
