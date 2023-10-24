@@ -15,7 +15,7 @@ module "azurevmnetworkdeploy" {
     azuresubnetrange = each.value.subnet
 }
 
-# Deply Azure Firewall Network (Hub)
+# Deploy Azure Firewall Network (Hub)
 module "azurefwnetworkdeploy" {
     source = "../modules/azureaddressspace"
     for_each = var.azurefwnetworkinformation
@@ -29,11 +29,25 @@ module "azurefwnetworkdeploy" {
 
 # Deploy VMs to Spoke Networks
 module "azurevmnetworksdeploy" {
-    source = "../modules/virtualmachine"
+    source = "../modules/azurevirtualmachine"
+    depends_on = [module.azurefwnetworkdeploy.network1]
     for_each = module.azurevmnetworkdeploy
 
     azureresourcegroup = azurerm_resource_group.azureregion.name
     azurelocation = azurerm_resource_group.azureregion.location
-    azurevmname = each.value.addressspacename
-    azureinternalsubnetid = each.value.id
+    azurevmname = each.value.name
+    azureinternalsubnetid = each.value.subnetid
+}
+
+# Create Peering from vm vNets and connect them to Azure Fw vNet
+module "azurepeering" {
+    source = "../modules/azureprivatepeering"
+    for_each = module.azurevmnetworkdeploy
+
+    azureresourcegroup = azurerm_resource_group.azureregion.name
+    azurevmaddressspacename = each.value.addressspacename
+    azurefwaddressspacename = module.azurefwnetworkdeploy.azurefirewall.addressspacename
+    azurevmaddressspaceid = each.value.addressspaceid
+    azurefwaddressspaceid = module.azurefwnetworkdeploy.azurefirewall.addressspaceid
+
 }
