@@ -8,7 +8,7 @@ variable "azureresourcegroup" {
   default = "mainRg123"
 }
 
-variable "azureipinformation" {
+variable "azurevmnetworkinformation" {
   type    = map(any)
   default = {
     addressspaceazurefirewall = {
@@ -19,17 +19,16 @@ variable "azureipinformation" {
   }
 }
 
-variable "azurevirtualmachineinfo" {
+variable "azurefwnetworkinformation" {
   type    = map(any)
   default = {
-    machine1 = {
+    addressspaceazurefirewall = {
         addressspacename = "azurefirewalladdressspace"
         addressspacesubnet = "10.0.0.0/16"
         subnet = "10.0.0.0/24"
     }
   }
 }
-
 #variable "azureinternalsubnetid" {
 #  type    = string
 #}
