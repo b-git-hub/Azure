@@ -5,7 +5,7 @@ variable "azure_location" {
 
 variable "azure_rg_name" {
   type    = string
-  default = "mainRg1123121"
+  default = "main_rg1"
 }
 
 variable "azure_vm_password" {
